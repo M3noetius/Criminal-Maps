@@ -29,6 +29,8 @@ public class LoginActivity extends FragmentActivity {
             "Register Account"
     };
 
+    MyPageAdapter pageAdapter = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +38,8 @@ public class LoginActivity extends FragmentActivity {
         setContentView(R.layout.activity_login);
 
         ViewPager mViewPager = findViewById(R.id.activity_login_viewpager);
-        mViewPager.setAdapter(new MyPageAdapter(getSupportFragmentManager()));
+        pageAdapter = new MyPageAdapter(getSupportFragmentManager());
+        mViewPager.setAdapter(pageAdapter);
 
         // Connect the tabs with the ViewPager (the setupWithViewPager method does this for us in
         // both directions, i.e. when a new tab is selected, the ViewPager switches to this page,
