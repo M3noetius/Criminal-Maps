@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.criminal_map.R;
 
@@ -34,24 +35,23 @@ public class LoginFragment extends Fragment {
         View this_view = inflater.inflate(R.layout.fragment_login_login, container, false);
 
         Button registerButton = (Button) this_view.findViewById(R.id.button_register);
-registerButton.setOnClickListener(new View.OnClickListener() {
+        registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO enable registration
+                // TODO keep registration hidden and enable only on button click
                 Toast.makeText(getActivity(), "Hello there!", Toast.LENGTH_SHORT).show();
-                FragmentManager fm = getActivity().getSupportFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction();
-                ft.add(R.id.activity_login_viewpager, new RegisterFragment(), "adas");
-                ft.disallowAddToBackStack();
-
-
+                ViewPager vp = (ViewPager) getActivity().findViewById(R.id.activity_login_viewpager);
+                vp.setCurrentItem(1,true);
+//                FragmentManager fm = getActivity().getSupportFragmentManager();
+//                FragmentTransaction ft = fm.beginTransaction();
+//                ft.add(R.id.activity_login_viewpager, new RegisterFragment(), "adas");
+//                ft.disallowAddToBackStack();
 //                ft.addToBackStack(null);
-                ft.commit();
+//                ft.commit();
             }
         });
 
         return this_view;
-
     }
 
 
