@@ -137,6 +137,7 @@ public class Network {
         while (iter.hasNext()) {
             String key = iter.next();
             String value = (String) json.get(key);
+            // TODO add support for the other instances
 //            if (value instanceof JSONArray) {
 //                value = toList((JSONArray) value);
 //            } else if (value instanceof JSONObject) {
