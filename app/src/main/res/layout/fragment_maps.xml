@@ -17,10 +17,10 @@
         tools:context=".Activities.MapsActivity" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/crimebtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:text="Crime"
         map:layout_constraintBottom_toBottomOf="parent"
         map:layout_constraintEnd_toEndOf="parent"
         map:layout_constraintStart_toStartOf="parent" />

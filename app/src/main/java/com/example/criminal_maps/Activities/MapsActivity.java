@@ -2,7 +2,10 @@ package com.example.criminal_maps.Activities;
 
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import com.example.criminal_maps.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -24,6 +27,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        Button crimebtn = (Button)findViewById(R.id.crimebtn);
+        crimebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent crimeIntent = new Intent(MapsActivity.this, CrimeActivity.class);
+                startActivity(crimeIntent);
+            }
+        });
     }
 
 
