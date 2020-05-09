@@ -17,51 +17,49 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nameEditText"
-        app:layout_constraintVertical_bias="0.102">
+        app:layout_constraintVertical_bias="0.052">
 
     </Button>
 
     <TextView
         android:id="@+id/date_text"
-        android:layout_width="105dp"
-        android:layout_height="26dp"
+        android:layout_width="115dp"
+        android:layout_height="32dp"
         android:text="day/month/year"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.206"
+        app:layout_constraintHorizontal_bias="0.243"
         app:layout_constraintStart_toEndOf="@+id/show_dialog"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.279" />
+        app:layout_constraintVertical_bias="0.194" />
 
     <EditText
         android:id="@+id/nameEditText"
+        android:layout_width="247dp"
+        android:layout_height="52dp"
         android:background="@drawable/place_holders"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name.."
+        android:text=" Name.."
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.414"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.147" />
+        app:layout_constraintVertical_bias="0.054" />
 
     <EditText
         android:id="@+id/placeEditText"
+        android:layout_width="247dp"
+        android:layout_height="52dp"
         android:background="@drawable/place_holders"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Crime place.."
+        android:text=" Crime place.."
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.414"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nameEditText"
-        app:layout_constraintVertical_bias="0.251" />
+        app:layout_constraintVertical_bias="0.187" />
 
     <Button
         android:id="@+id/button2"
@@ -73,21 +71,49 @@
         app:layout_constraintHorizontal_bias="0.441"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/placeEditText"
-        app:layout_constraintVertical_bias="0.834" />
+        app:layout_constraintVertical_bias="0.964" />
 
     <EditText
         android:id="@+id/editText6"
-        android:background="@drawable/place_holders"
         android:layout_width="247dp"
         android:layout_height="210dp"
+        android:background="@drawable/place_holders"
         android:ems="10"
         android:gravity="start|top"
         android:inputType="textMultiLine"
-        android:text="Write your report.."
+        android:text=" Write your report.."
         app:layout_constraintBottom_toTopOf="@+id/button2"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/placeEditText"
-        app:layout_constraintVertical_bias="0.57" />
+        app:layout_constraintVertical_bias="0.837" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="247dp"
+        android:layout_height="48dp"
+        android:background="@drawable/place_holders"
+        android:spinnerMode="dropdown"
+        app:layout_constraintBottom_toTopOf="@+id/editText6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/placeEditText" />
+
+    <ImageView
+        android:layout_width="46dp"
+        android:layout_height="33dp"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:src="@drawable/drop"
+        app:layout_constraintBottom_toBottomOf="@+id/spinner"
+        app:layout_constraintEnd_toEndOf="@+id/spinner"
+        app:layout_constraintHorizontal_bias="0.97"
+        app:layout_constraintStart_toStartOf="@+id/spinner"
+        app:layout_constraintTop_toTopOf="@+id/spinner"
+        app:layout_constraintVertical_bias="0.533">
+
+    </ImageView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
