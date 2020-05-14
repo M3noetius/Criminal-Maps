@@ -26,19 +26,9 @@ public class CrimeActivity extends AppCompatActivity implements DatePickerDialog
         setContentView(R.layout.activity_crime);
 
         dateText = (TextView) findViewById(R.id.date_text);
-
-        findViewById(R.id.show_dialog).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDatePickerDialog();
-            }
-        });
-
-
-
     }
 
-    public void showDatePickerDialog(){
+    public void showDatePickerDialog(View view) {
         DatePickerDialog datePickerDialog = new DatePickerDialog(this,this,
                 Calendar.getInstance().get(Calendar.YEAR),
                 Calendar.getInstance().get(Calendar.MONTH),
