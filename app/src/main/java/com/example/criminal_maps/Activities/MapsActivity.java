@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.criminal_maps.Classes.Crime;
+import com.example.criminal_maps.Classes.DBHandler;
 import com.example.criminal_maps.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -14,6 +16,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -47,6 +51,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng thessaloniki = new LatLng(40.631111, 22.953334);
         mMap.addMarker(new MarkerOptions().position(thessaloniki).title("Thessaloniki"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(thessaloniki, 12f));
+
+        // TODO: Get points from the server and add them to the local DB
+        DBHandler dbHandler = new DBHandler(this, null, null, 1);
+        ArrayList<Crime> crimes = dbHandler.getAllCrimes();
+        for (Crime crime: crimes) {
+            LatLng location = new LatLng(crime.getLatitude(), crime.getLongitude());
+            mMap.addMarker(new MarkerOptions().position(location).title(crime.getName()));
+        }
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
