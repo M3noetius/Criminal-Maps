@@ -13,7 +13,7 @@
 
 
         <Button
-            android:id="@+id/show_dialog"
+            android:id="@+id/showDialogButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="64dp"
@@ -27,13 +27,13 @@
         </Button>
 
         <TextView
-            android:id="@+id/date_text"
+            android:id="@+id/dateText"
             android:layout_width="wrap_content"
             android:layout_height="32dp"
             android:layout_marginEnd="64dp"
             android:layout_marginRight="64dp"
             android:text="@string/day_month_year"
-            app:layout_constraintBaseline_toBaselineOf="@+id/show_dialog"
+            app:layout_constraintBaseline_toBaselineOf="@+id/showDialogButton"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <EditText
@@ -57,17 +57,18 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/submitButton"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_marginTop="16dp"
+            android:onClick="onSubmit"
             android:text="@string/submit_crime"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText6" />
+            app:layout_constraintTop_toBottomOf="@+id/reportEditText" />
 
         <EditText
-            android:id="@+id/editText6"
+            android:id="@+id/reportEditText"
             android:layout_width="0dp"
             android:layout_height="194dp"
             android:layout_marginStart="32dp"
@@ -102,10 +103,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintTop_toBottomOf="@+id/crimeTypeText" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/crimeTypeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -113,7 +114,7 @@
             android:layout_marginTop="16dp"
             android:text="@string/crime_type"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/show_dialog" />
+            app:layout_constraintTop_toBottomOf="@+id/showDialogButton" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

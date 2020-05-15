@@ -2,7 +2,7 @@
     <string name="app_name">Criminal-Maps</string>
     <string name="title_activity_maps">Map</string>
     <string name="crime_name">Crime name</string>
-    <string name="report">Write your report</string>
+    <string name="report">Write your report (optional)</string>
     <string name="submit_crime">Submit crime</string>
     <string name="pick_date">Pick a date</string>
     <string name="day_month_year">day/month/year</string>
@@ -13,4 +13,6 @@
         <item>Rape</item>
         <item>Physical violence</item>
     </string-array>
+    <string name="missing_name">Missing name</string>
+    <string name="missing_date">Please input a date</string>
 </resources>

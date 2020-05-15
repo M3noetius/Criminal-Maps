@@ -51,8 +51,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng point) {
-                
-                mMap.addMarker(new MarkerOptions().position(point));
+                Intent intent = new Intent(MapsActivity.this, CrimeActivity.class);
+                intent.putExtra("LATITUDE", point.latitude);
+                intent.putExtra("LONGITUDE", point.longitude);
+//                mMap.addMarker(new MarkerOptions().position(point));
+                startActivity(intent);
             }
         });
     }
