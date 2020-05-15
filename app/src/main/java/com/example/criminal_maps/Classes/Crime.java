@@ -1,6 +1,13 @@
 package com.example.criminal_maps.Classes;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "crimes")
 public class Crime {
+    @PrimaryKey
+    @NonNull
     private int id;
     private double longitude;
     private double latitude;
