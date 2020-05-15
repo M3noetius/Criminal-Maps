@@ -27,7 +27,6 @@ public class CrimeActivity extends AppCompatActivity implements DatePickerDialog
     private Spinner spinner;
     private EditText reportEditText;
     private TextView crimeTypeText;
-    private DatePickerDialog.OnDateSetListener mDateSetListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,8 +73,18 @@ public class CrimeActivity extends AppCompatActivity implements DatePickerDialog
             return;
         }
         Bundle extras = getIntent().getExtras();
-        double longitude = extras.getDouble("LONGITUDE");
-        double latitude = extras.getDouble("LATITUDE");
+        // Only for debugging purposes, should never actually happen
+        if (extras == null) {
+            Log.d(TAG, "Extra data not passed (latitude and longitude)");
+            return;
+        }
+        double longitude = extras.getDouble("LONGITUDE", -10000);
+        double latitude = extras.getDouble("LATITUDE", -10000);
+        // Only for debugging purposes, should never actually happen
+        if (latitude == -10000 || longitude == -10000) {
+            Log.d(TAG, "Extra data not passed (latitude and longitude)");
+            return;
+        }
         String crimeName = nameEditText.getText().toString();
         String date = dateText.getText().toString();
         String report = reportEditText.getText().toString();
