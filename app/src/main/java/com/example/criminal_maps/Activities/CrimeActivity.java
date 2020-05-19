@@ -88,7 +88,7 @@ public class CrimeActivity extends AppCompatActivity implements DatePickerDialog
         String crimeName = nameEditText.getText().toString();
         String date = dateText.getText().toString();
         String report = reportEditText.getText().toString();
-        String type = crimeTypes[(int) spinner.getSelectedItemId()];
+        int type = (int) spinner.getSelectedItemId();
 
         if (false) {
             // TODO: POST the crime to the server. If the POST is successful, also add it to the local DB

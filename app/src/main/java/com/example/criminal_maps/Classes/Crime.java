@@ -1,15 +1,17 @@
 package com.example.criminal_maps.Classes;
 
+import androidx.annotation.NonNull;
+
 public class Crime {
     private int id;
     private double longitude;
     private double latitude;
     private String name;
     private String date;
-    private String type;
+    private int type;
     private String report;
 
-    public Crime(int id, double longitude, double latitude, String name, String date, String type, String report) {
+    public Crime(int id, double longitude, double latitude, String name, String date, int type, String report) {
         this.id = id;
         this.longitude = longitude;
         this.latitude = latitude;
@@ -18,6 +20,17 @@ public class Crime {
         this.type = type;
         this.report = report;
     }
+
+    // Strict use only when adding a new crime
+    public Crime(double longitude, double latitude, String name, String date, int type, String report) {
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.name = name;
+        this.date = date;
+        this.type = type;
+        this.report = report;
+    }
+
 
     public int getId() {
         return id;
@@ -59,11 +72,11 @@ public class Crime {
         this.date = date;
     }
 
-    public String getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(int type) {
         this.type = type;
     }
 
@@ -73,5 +86,20 @@ public class Crime {
 
     public void setReport(String report) {
         this.report = report;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        String ret = this.id + " | " +
+                     this.latitude + " | " +
+                     this.longitude + " | " +
+                     this.name + " | " +
+                     this.date + " | " +
+                     this.type +  " | " +
+                     this.report;
+
+        return  ret;
+
     }
 }

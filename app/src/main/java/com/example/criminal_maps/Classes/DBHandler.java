@@ -69,7 +69,7 @@ public class DBHandler extends SQLiteOpenHelper {
             double latitude = cursor.getDouble(cursor.getColumnIndex(COLUMN_LATITUDE));
             String name = cursor.getString(cursor.getColumnIndex(COLUMN_NAME));
             String date = cursor.getString(cursor.getColumnIndex(COLUMN_DATE));
-            String type = cursor.getString(cursor.getColumnIndex(COLUMN_TYPE));
+            int type = cursor.getInt(cursor.getColumnIndex(COLUMN_TYPE));
             String report = cursor.getString(cursor.getColumnIndex(COLUMN_REPORT));
             Crime crime = new Crime(id, longitude, latitude, name, date, type, report);
             crimes.add(crime);
