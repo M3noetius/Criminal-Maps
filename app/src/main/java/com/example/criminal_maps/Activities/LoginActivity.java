@@ -7,13 +7,21 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import com.example.criminal_maps.NetworkComms.API;
 import com.example.criminal_maps.R;
 
 import com.example.criminal_maps.Fragments.LoginActivity.LoginFragment;
 import com.example.criminal_maps.Fragments.LoginActivity.RegisterFragment;
+
+import org.json.JSONException;
 
 public class LoginActivity extends FragmentActivity {
 
@@ -33,7 +41,7 @@ public class LoginActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_login);
 
         ViewPager mViewPager = findViewById(R.id.activity_login_viewpager);
@@ -46,6 +54,39 @@ public class LoginActivity extends FragmentActivity {
 //        TabLayout tabLayout = findViewById(R.id.tablayout);
 //        tabLayout.setupWithViewPager(mViewPager);
 
+    }
+
+    public void onClickLogin(View view) {
+        API api = new API();
+        EditText usernameEditText = findViewById(R.id.plaintext_username);
+        String username = usernameEditText.getText().toString();
+        EditText passwordEditTest = findViewById(R.id.plaintext_password);
+        String password = passwordEditTest.getText().toString();
+        try {
+            boolean response = api.login(username, password);
+            if (response) {
+                Intent intent = new Intent(this, MapsActivity.class);
+                startActivity(intent);
+            }
+            else {
+                Toast.makeText(this, getResources().getString(R.string.login_failed), Toast.LENGTH_LONG).show();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void onClickRegister(View view) {
+        API api = new API();
+        EditText usernameEditText = findViewById(R.id.fragment_register_editText_username);
+        EditText passwordEditText = findViewById(R.id.fragment_register_editText_password);
+        EditText passwordConfirmEditText = findViewById(R.id.fragment_register_editText_password_confirm);
+        String username = usernameEditText.getText().toString();
+        String password = passwordEditText.getText().toString();
+        String passwordConfirm = passwordConfirmEditText.getText().toString();
+        if (!password.equals(passwordConfirm)) {
+            Toast.makeText(this, getResources().getString(R.string.passwords_must_match), Toast.LENGTH_SHORT).show();
+        }
     }
 
     public class MyPageAdapter extends FragmentStatePagerAdapter {

@@ -4,11 +4,13 @@ import androidx.fragment.app.FragmentActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import com.example.criminal_maps.Classes.Crime;
 import com.example.criminal_maps.Classes.DBHandler;
+import com.example.criminal_maps.NetworkComms.API;
 import com.example.criminal_maps.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -17,9 +19,14 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+
+    private static final String TAG = "MapsActivity";
 
     private GoogleMap mMap;
 
@@ -52,10 +59,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addMarker(new MarkerOptions().position(thessaloniki).title("Thessaloniki"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(thessaloniki, 12f));
 
-        // TODO: Get points from the server and add them to the local DB
+        API api = new API();
+        Crime[] crimes;
+        try {
+            crimes = api.getCrimes();
+        }
+        catch (JSONException e) {
+            crimes = new Crime[]{};
+            e.printStackTrace();
+        }
         DBHandler dbHandler = new DBHandler(this, null, null, 1);
-        ArrayList<Crime> crimes = dbHandler.getAllCrimes();
+
+        // ArrayList<Crime> crimes = dbHandler.getAllCrimes();
         for (Crime crime: crimes) {
+            dbHandler.addCrime(crime);
             LatLng location = new LatLng(crime.getLatitude(), crime.getLongitude());
             mMap.addMarker(new MarkerOptions().position(location).title(crime.getName()));
         }
