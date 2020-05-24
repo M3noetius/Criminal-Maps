@@ -21,10 +21,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONException;
 
-import java.util.ArrayList;
-import java.util.Objects;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+
+    private API api;
 
     private static final String TAG = "MapsActivity";
 
@@ -47,6 +47,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 startActivity(crimeIntent);
             }
         });
+
+        api = (API) getIntent().getSerializableExtra("API");
     }
 
 
@@ -59,10 +61,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addMarker(new MarkerOptions().position(thessaloniki).title("Thessaloniki"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(thessaloniki, 12f));
 
-        API api = new API();
         Crime[] crimes;
         try {
             crimes = api.getCrimes();
+            if (crimes == null) {
+                crimes = new Crime[]{};
+                Log.e(TAG, api.getError());
+            }
         }
         catch (JSONException e) {
             crimes = new Crime[]{};
@@ -83,6 +88,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Intent intent = new Intent(MapsActivity.this, CrimeActivity.class);
                 intent.putExtra("LATITUDE", point.latitude);
                 intent.putExtra("LONGITUDE", point.longitude);
+                intent.putExtra("API", api);
 //                mMap.addMarker(new MarkerOptions().position(point));
                 startActivity(intent);
             }

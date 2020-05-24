@@ -2,7 +2,9 @@ package com.example.criminal_maps.Classes;
 
 import androidx.annotation.NonNull;
 
-public class ApiCredentials {
+import java.io.Serializable;
+
+public class ApiCredentials implements Serializable {
     private String credentials;
 
     public ApiCredentials(String credentials){

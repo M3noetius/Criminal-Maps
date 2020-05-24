@@ -25,6 +25,8 @@ import org.json.JSONException;
 
 public class LoginActivity extends FragmentActivity {
 
+    private API api;
+
     public Fragment pages[] = {
             new LoginFragment(),
             new RegisterFragment()
@@ -35,6 +37,8 @@ public class LoginActivity extends FragmentActivity {
             "Login",
             "Register Account"
     };
+
+    private static final String TAG = "LoginActivity";
 
     MyPageAdapter pageAdapter = null;
 
@@ -48,6 +52,8 @@ public class LoginActivity extends FragmentActivity {
         pageAdapter = new MyPageAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(pageAdapter);
 
+        api = new API();
+
         // Connect the tabs with the ViewPager (the setupWithViewPager method does this for us in
         // both directions, i.e. when a new tab is selected, the ViewPager switches to this page,
         // and when the ViewPager switches to a new page, the corresponding tab is selected)
@@ -57,7 +63,6 @@ public class LoginActivity extends FragmentActivity {
     }
 
     public void onClickLogin(View view) {
-        API api = new API();
         EditText usernameEditText = findViewById(R.id.plaintext_username);
         String username = usernameEditText.getText().toString();
         EditText passwordEditTest = findViewById(R.id.plaintext_password);
@@ -66,9 +71,11 @@ public class LoginActivity extends FragmentActivity {
             boolean response = api.login(username, password);
             if (response) {
                 Intent intent = new Intent(this, MapsActivity.class);
+                intent.putExtra("API", api);
                 startActivity(intent);
             }
             else {
+                Log.e(TAG, api.getError());
                 Toast.makeText(this, getResources().getString(R.string.login_failed), Toast.LENGTH_LONG).show();
             }
         } catch (JSONException e) {
@@ -77,7 +84,6 @@ public class LoginActivity extends FragmentActivity {
     }
 
     public void onClickRegister(View view) {
-        API api = new API();
         EditText usernameEditText = findViewById(R.id.fragment_register_editText_username);
         EditText passwordEditText = findViewById(R.id.fragment_register_editText_password);
         EditText passwordConfirmEditText = findViewById(R.id.fragment_register_editText_password_confirm);
@@ -105,6 +111,7 @@ public class LoginActivity extends FragmentActivity {
                 startActivity(intent);
             }
             else {
+                Log.e(TAG, api.getError());
                 Toast.makeText(this, getResources().getString(R.string.registration_failed), Toast.LENGTH_LONG).show();
             }
         } catch (JSONException e) {

@@ -30,6 +30,7 @@ public class CrimeActivity extends AppCompatActivity implements DatePickerDialog
     private Spinner spinner;
     private EditText reportEditText;
     private TextView crimeTypeText;
+    private API api;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,8 @@ public class CrimeActivity extends AppCompatActivity implements DatePickerDialog
         spinner = findViewById(R.id.spinner);
         reportEditText = findViewById(R.id.reportEditText);
         crimeTypeText = findViewById(R.id.crimeTypeText);
+
+        api = (API) getIntent().getSerializableExtra("API");
     }
 
     public void showDatePickerDialog(View view) {
@@ -93,11 +96,10 @@ public class CrimeActivity extends AppCompatActivity implements DatePickerDialog
         String report = reportEditText.getText().toString();
         int type = (int) spinner.getSelectedItemId();
 
-        API api = new API();
         Crime crime = new Crime(longitude, latitude, crimeName, date, type, report);
         try {
             if (!api.addCrime(crime)) {
-                Log.e(TAG, "Crime was not added");
+                Log.e(TAG, api.getError());
             }
         } catch (JSONException e) {
             e.printStackTrace();
