@@ -26,6 +26,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private API api;
 
+    public static final int ADD_CRIME = 1;
+
     private Crime[] crimes;
 
     private static final String TAG = "MapsActivity";
@@ -64,9 +66,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 intent.putExtra("LONGITUDE", point.longitude);
                 intent.putExtra("API", api);
 //                mMap.addMarker(new MarkerOptions().position(point));
-                startActivity(intent);
+
+                // We don't actually expect a result. We do however want to refresh the map when a new crime is added. This lets us do it at onActivityResult()
+                startActivityForResult(intent, ADD_CRIME);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ADD_CRIME) {
+            refresh();
+        }
     }
 
     public void onRefreshClick(View view) {
