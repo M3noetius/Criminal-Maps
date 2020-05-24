@@ -10,17 +10,21 @@
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="0dp"
-        android:layout_height="552dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="64dp"
+        map:layout_constraintBottom_toTopOf="@+id/refresh_button"
         map:layout_constraintEnd_toEndOf="parent"
         map:layout_constraintStart_toStartOf="parent"
         map:layout_constraintTop_toTopOf="parent"
         tools:context=".Activities.MapsActivity" />
 
     <Button
-        android:id="@+id/crimebtn"
+        android:id="@+id/refresh_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Crime"
+        android:layout_marginBottom="8dp"
+        android:onClick="onRefreshClick"
+        android:text="@string/refresh"
         map:layout_constraintBottom_toBottomOf="parent"
         map:layout_constraintEnd_toEndOf="parent"
         map:layout_constraintStart_toStartOf="parent" />

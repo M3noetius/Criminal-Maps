@@ -26,6 +26,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private API api;
 
+    private Crime[] crimes;
+
     private static final String TAG = "MapsActivity";
 
     private GoogleMap mMap;
@@ -39,15 +41,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        Button crimebtn = (Button)findViewById(R.id.crimebtn);
-        crimebtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent crimeIntent = new Intent(MapsActivity.this, CrimeActivity.class);
-                startActivity(crimeIntent);
-            }
-        });
-
         api = (API) getIntent().getSerializableExtra("API");
     }
 
@@ -58,10 +51,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Add a marker in Thessaloniki, move the camera and zoom.
         LatLng thessaloniki = new LatLng(40.631111, 22.953334);
-        mMap.addMarker(new MarkerOptions().position(thessaloniki).title("Thessaloniki"));
+//        mMap.addMarker(new MarkerOptions().position(thessaloniki).title("Thessaloniki"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(thessaloniki, 12f));
 
-        Crime[] crimes;
+        refresh();
+
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng point) {
+                Intent intent = new Intent(MapsActivity.this, CrimeActivity.class);
+                intent.putExtra("LATITUDE", point.latitude);
+                intent.putExtra("LONGITUDE", point.longitude);
+                intent.putExtra("API", api);
+//                mMap.addMarker(new MarkerOptions().position(point));
+                startActivity(intent);
+            }
+        });
+    }
+
+    public void onRefreshClick(View view) {
+        refresh();
+    }
+
+    private void refresh() {
+        mMap.clear();
         try {
             crimes = api.getCrimes();
             if (crimes == null) {
@@ -81,18 +94,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             LatLng location = new LatLng(crime.getLatitude(), crime.getLongitude());
             mMap.addMarker(new MarkerOptions().position(location).title(crime.getName()));
         }
-
-        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-            @Override
-            public void onMapClick(LatLng point) {
-                Intent intent = new Intent(MapsActivity.this, CrimeActivity.class);
-                intent.putExtra("LATITUDE", point.latitude);
-                intent.putExtra("LONGITUDE", point.longitude);
-                intent.putExtra("API", api);
-//                mMap.addMarker(new MarkerOptions().position(point));
-                startActivity(intent);
-            }
-        });
     }
 
 }

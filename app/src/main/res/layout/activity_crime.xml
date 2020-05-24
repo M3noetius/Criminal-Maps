@@ -32,7 +32,7 @@
             android:layout_height="32dp"
             android:layout_marginEnd="64dp"
             android:layout_marginRight="64dp"
-            android:text="@string/day_month_year"
+            android:text="@string/year_month_day"
             app:layout_constraintBaseline_toBaselineOf="@+id/showDialogButton"
             app:layout_constraintEnd_toEndOf="parent" />
 

@@ -108,6 +108,7 @@ public class LoginActivity extends FragmentActivity {
             boolean response = api.register(username, password);
             if (response) {
                 Intent intent = new Intent(this, MapsActivity.class);
+                intent.putExtra("API", api);
                 startActivity(intent);
             }
             else {

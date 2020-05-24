@@ -58,7 +58,9 @@ public class CrimeActivity extends AppCompatActivity implements DatePickerDialog
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        String date =  dayOfMonth + "/" + month + "/" + year;
+        String monthString = month < 10 ? "0" + month : String.valueOf(month);
+        String dayString = dayOfMonth < 10 ? "0" + dayOfMonth : String.valueOf(dayOfMonth);
+        String date = year + "-" + monthString + "-" + dayString;
         dateText.setText(date);
         // Reset the text view to the default color (in case it was changed to red due to an error)
         dateText.setTextColor(crimeTypeText.getCurrentTextColor());
@@ -70,9 +72,13 @@ public class CrimeActivity extends AppCompatActivity implements DatePickerDialog
             nameEditText.setError(getResources().getString(R.string.missing_name));
             valid = false;
         }
-        if (dateText.getText().toString().equals(getResources().getString(R.string.day_month_year))) {
+        if (dateText.getText().toString().equals(getResources().getString(R.string.year_month_day))) {
             dateText.setText(getResources().getString(R.string.missing_date));
             dateText.setTextColor(Color.RED);
+            valid = false;
+        }
+        if (reportEditText.getText().toString().equals("")) {
+            reportEditText.setError(getResources().getString(R.string.missing_report));
             valid = false;
         }
         if (!valid) {
@@ -94,7 +100,7 @@ public class CrimeActivity extends AppCompatActivity implements DatePickerDialog
         String crimeName = nameEditText.getText().toString();
         String date = dateText.getText().toString();
         String report = reportEditText.getText().toString();
-        int type = (int) spinner.getSelectedItemId();
+        int type = (int) spinner.getSelectedItemId() + 1;
 
         Crime crime = new Crime(longitude, latitude, crimeName, date, type, report);
         try {
