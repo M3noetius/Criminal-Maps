@@ -25,4 +25,6 @@
     <string name="login_failed">Could not log in. Please check your username and password</string>
     <string name="hello_there">Hello there!</string>
     <string name="passwords_must_match">The passwords must match</string>
+    <string name="missing_username">Missing username</string>
+    <string name="registration_failed">Something went wrong. Could not register</string>
 </resources>

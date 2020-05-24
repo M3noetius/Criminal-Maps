@@ -84,8 +84,31 @@ public class LoginActivity extends FragmentActivity {
         String username = usernameEditText.getText().toString();
         String password = passwordEditText.getText().toString();
         String passwordConfirm = passwordConfirmEditText.getText().toString();
+        boolean valid = true;
         if (!password.equals(passwordConfirm)) {
-            Toast.makeText(this, getResources().getString(R.string.passwords_must_match), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, getResources().getString(R.string.passwords_must_match), Toast.LENGTH_SHORT).show();
+            passwordEditText.setError(getResources().getString(R.string.passwords_must_match));
+            passwordConfirmEditText.setError(getResources().getString(R.string.passwords_must_match));
+            valid = false;
+        }
+        if (username.equals("")) {
+            usernameEditText.setError(getResources().getString(R.string.missing_username));
+            valid = false;
+        }
+        if (!valid) {
+            return;
+        }
+        try {
+            boolean response = api.register(username, password);
+            if (response) {
+                Intent intent = new Intent(this, MapsActivity.class);
+                startActivity(intent);
+            }
+            else {
+                Toast.makeText(this, getResources().getString(R.string.registration_failed), Toast.LENGTH_LONG).show();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 
