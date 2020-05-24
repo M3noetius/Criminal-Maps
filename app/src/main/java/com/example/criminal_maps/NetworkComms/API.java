@@ -9,12 +9,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class API extends Network {
+public class API extends Network implements Serializable {
     private String error;
 
-    // Unused
     private ApiCredentials apiCredentials= null;
 
     public API(){}
@@ -54,7 +54,7 @@ public class API extends Network {
             return false;
         }
 
-        return  true;
+        return true;
 
 
     }

@@ -2,10 +2,10 @@
     <string name="app_name">Criminal-Maps</string>
     <string name="title_activity_maps">Map</string>
     <string name="crime_name">Crime name</string>
-    <string name="report">Write your report (optional)</string>
+    <string name="report">Write your report</string>
     <string name="submit_crime">Submit crime</string>
     <string name="pick_date">Pick a date</string>
-    <string name="day_month_year">day/month/year</string>
+    <string name="year_month_day">year-month-day</string>
     <string name="crime_type">Crime type:</string>
     <string-array name="spinner_names">
         <item>Murder</item>
@@ -15,4 +15,18 @@
     </string-array>
     <string name="missing_name">Missing name</string>
     <string name="missing_date">Please input a date</string>
+    <string name="missing_report">Missing report</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="login">Login</string>
+    <string name="create_account">Create Account</string>
+    <string name="register">Register</string>
+    <string name="complete_registration">Complete Registration</string>
+    <string name="login_failed">Could not log in. Please check your username and password</string>
+    <string name="hello_there">Hello there!</string>
+    <string name="passwords_must_match">The passwords must match</string>
+    <string name="missing_username">Missing username</string>
+    <string name="registration_failed">Something went wrong. Could not register</string>
+    <string name="refresh">Refresh</string>
 </resources>

@@ -14,7 +14,10 @@ import android.widget.TextView;
 
 import com.example.criminal_maps.Classes.Crime;
 import com.example.criminal_maps.Classes.DBHandler;
+import com.example.criminal_maps.NetworkComms.API;
 import com.example.criminal_maps.R;
+
+import org.json.JSONException;
 
 import java.util.Calendar;
 
@@ -27,6 +30,7 @@ public class CrimeActivity extends AppCompatActivity implements DatePickerDialog
     private Spinner spinner;
     private EditText reportEditText;
     private TextView crimeTypeText;
+    private API api;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +42,8 @@ public class CrimeActivity extends AppCompatActivity implements DatePickerDialog
         spinner = findViewById(R.id.spinner);
         reportEditText = findViewById(R.id.reportEditText);
         crimeTypeText = findViewById(R.id.crimeTypeText);
+
+        api = (API) getIntent().getSerializableExtra("API");
     }
 
     public void showDatePickerDialog(View view) {
@@ -52,7 +58,9 @@ public class CrimeActivity extends AppCompatActivity implements DatePickerDialog
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        String date =  dayOfMonth + "/" + month + "/" + year;
+        String monthString = month < 10 ? "0" + month : String.valueOf(month);
+        String dayString = dayOfMonth < 10 ? "0" + dayOfMonth : String.valueOf(dayOfMonth);
+        String date = year + "-" + monthString + "-" + dayString;
         dateText.setText(date);
         // Reset the text view to the default color (in case it was changed to red due to an error)
         dateText.setTextColor(crimeTypeText.getCurrentTextColor());
@@ -64,9 +72,13 @@ public class CrimeActivity extends AppCompatActivity implements DatePickerDialog
             nameEditText.setError(getResources().getString(R.string.missing_name));
             valid = false;
         }
-        if (dateText.getText().toString().equals(getResources().getString(R.string.day_month_year))) {
+        if (dateText.getText().toString().equals(getResources().getString(R.string.year_month_day))) {
             dateText.setText(getResources().getString(R.string.missing_date));
             dateText.setTextColor(Color.RED);
+            valid = false;
+        }
+        if (reportEditText.getText().toString().equals("")) {
+            reportEditText.setError(getResources().getString(R.string.missing_report));
             valid = false;
         }
         if (!valid) {
@@ -88,14 +100,22 @@ public class CrimeActivity extends AppCompatActivity implements DatePickerDialog
         String crimeName = nameEditText.getText().toString();
         String date = dateText.getText().toString();
         String report = reportEditText.getText().toString();
-        int type = (int) spinner.getSelectedItemId();
+        int type = (int) spinner.getSelectedItemId() + 1;
 
-        if (false) {
-            // TODO: POST the crime to the server. If the POST is successful, also add it to the local DB
-            Crime crime = new Crime(1, longitude, latitude, crimeName, date, type, report);
-            DBHandler dbHandler = new DBHandler(this, null, null, 1);
-            dbHandler.addCrime(crime);
+        Crime crime = new Crime(longitude, latitude, crimeName, date, type, report);
+        try {
+            if (!api.addCrime(crime)) {
+                Log.e(TAG, api.getError());
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+
+        // Since I do not know the ID of the added crime, I do not add it to the local database now. Instead, I add it when I get the data from the server
+
+//        Crime crime = new Crime(1, longitude, latitude, crimeName, date, type, report);
+//        DBHandler dbHandler = new DBHandler(this, null, null, 1);
+//        dbHandler.addCrime(crime);
         finish();
     }
 }
