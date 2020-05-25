@@ -16,47 +16,21 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import com.example.criminal_maps.Classes.NetworkComms.ConnectionData;
+import com.example.criminal_maps.Classes.NetworkComms.NetworkResponse;
 
 public class Network {
     public ConnectionData result;
-    private String sessionId = null;
     private String serverIp = "161.35.35.222";
-    private String serverAddress = "http://" + serverIp;
-    private int timeout = 5000; //5 seconds
+    public String serverAddress = "http://" + serverIp;
+    public int timeout = 5000; //5 seconds
 
-    public Network() {
-    }
+    public Network() { }
 
-    public Network(String sessionId) {
-        this.sessionId = sessionId;
-    }
 
-    public HashMap<String, String> login(String username, String password) throws JSONException {
-        HashMap<String, String> params = new HashMap<String, String>();
-        params.put("username", username);
-        params.put("password", password);
-
-        httpRequest("/api/login", params, "POST");
-
-        return decodeJson(this.result.response);
-    }
-
-    public HashMap<String, String> register(String username, String password) throws JSONException {
-        HashMap<String, String> params = new HashMap<String, String>();
-        params.put("username", username);
-        params.put("password", password);
-
-        httpRequest("/api/register", params, "POST");
-
-        return decodeJson(this.result.response);
-    }
-
-    private void httpRequest(String file, final HashMap<String, String> params, final String type) {
+    public void httpRequest(String file, final HashMap<String, String> params, final String type) {
         String TAG = "httpRequest()";
         final String url = serverAddress + file;
         try {
-            final String myUrl = url;
-
             Thread mThread = new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -129,23 +103,4 @@ public class Network {
         return json2.toString();
     }
 
-    static public HashMap<String, String> decodeJson(String jsonData) throws JSONException {
-        JSONObject json = new JSONObject(jsonData);
-        HashMap<String, String> hashmapJson = new HashMap<>();
-        Iterator<String> iter = json.keys();
-
-        while (iter.hasNext()) {
-            String key = iter.next();
-            String value = (String) json.get(key);
-            // TODO add support for the other instances
-//            if (value instanceof JSONArray) {
-//                value = toList((JSONArray) value);
-//            } else if (value instanceof JSONObject) {
-//                value = toMap((JSONObject) value);
-//            }
-            hashmapJson.put(key, value);
-        }
-
-        return hashmapJson;
-    }
 }

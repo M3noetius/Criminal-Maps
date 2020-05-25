@@ -37,7 +37,7 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // TODO keep registration hidden and enable only on button click
-                Toast.makeText(getActivity(), "Hello there!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getResources().getString(R.string.hello_there), Toast.LENGTH_SHORT).show();
                 ViewPager vp = (ViewPager) getActivity().findViewById(R.id.activity_login_viewpager);
                 vp.setCurrentItem(1, true);
             }
@@ -52,4 +52,24 @@ public class LoginFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
     }
+
+//    public void onClickLogin(View view) {
+//        API api = new API();
+//        EditText usernameEditText = getActivity().findViewById(R.id.plaintext_username);
+//        String username = usernameEditText.getText().toString();
+//        EditText passwordEditTest = getActivity().findViewById(R.id.plaintext_password);
+//        String password = passwordEditTest.getText().toString();
+//        try {
+//            boolean response = api.login(username, password);
+//            if (response) {
+//                Intent intent = new Intent(getActivity(), MapsActivity.class);
+//                startActivity(intent);
+//            }
+//            else {
+//                Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
+//            }
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }
