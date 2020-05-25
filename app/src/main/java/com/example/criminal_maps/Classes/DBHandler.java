@@ -5,14 +5,16 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 
 public class DBHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
+    public static final String COLUMN_ID = "id";
+
     private static final String DATABASE_NAME = "crimes.db";
     public static final String TABLE_CRIMES = "crimes";
-    public static final String COLUMN_ID = "id";
     public static final String COLUMN_LONGITUDE = "longitude";
     public static final String COLUMN_LATITUDE = "latitude";
     public static final String COLUMN_NAME = "name";
@@ -20,12 +22,16 @@ public class DBHandler extends SQLiteOpenHelper {
     public static final String COLUMN_TYPE = "crime_type";
     public static final String COLUMN_REPORT = "report";
 
+    public static final String TABLE_USER = "user";
+    public static final String COLUMN_APICREDENTIALS = "api_credentials";
+
     public DBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+
         String CREATE_CRIMES_TABLE = "CREATE TABLE " + TABLE_CRIMES + " (" +
                 COLUMN_ID + " INTEGER PRIMARY KEY, " +
                 COLUMN_LONGITUDE + " REAL, " +
@@ -35,6 +41,14 @@ public class DBHandler extends SQLiteOpenHelper {
                 COLUMN_TYPE + " TEXT, " +
                 COLUMN_REPORT + " TEXT " + ")";
         db.execSQL(CREATE_CRIMES_TABLE);
+
+
+        String CREATE_USER_TABLE = "CREATE TABLE  " + TABLE_USER + " ( " +
+                COLUMN_APICREDENTIALS + " TEXT, " +
+                COLUMN_ID + " INTEGER PRIMARY KEY " +
+                ")";
+
+        db.execSQL(CREATE_USER_TABLE);
     }
 
     @Override
@@ -42,6 +56,46 @@ public class DBHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CRIMES);
         onCreate(db);
     }
+
+    public void addCredentials(String credentials){
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_ID, 1);
+        values.put(COLUMN_APICREDENTIALS, credentials);
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.insert(TABLE_USER, null, values);
+
+        db.close();
+    }
+
+    public void deleteCredentials(){
+        SQLiteDatabase sqldb = this.getWritableDatabase();
+        String query = "DELETE FROM " + TABLE_USER;
+        sqldb.delete(TABLE_USER, null, null);
+        Log.i("login", "Yeahhh");
+
+        sqldb.close();
+    }
+
+
+    public String checkCredentials(){
+        SQLiteDatabase sqldb = this.getReadableDatabase();
+        String Query = "Select " + COLUMN_ID + ", " + COLUMN_APICREDENTIALS +  " from " + TABLE_USER + " where " + COLUMN_ID + " = 1" ;
+        Cursor cursor = sqldb.rawQuery(Query, null);
+        if(cursor.getCount() <= 0){
+            cursor.close();
+            return null;
+        }
+
+        cursor.moveToFirst();
+        String creds = cursor.getString(1);
+
+        cursor.close();
+
+        return creds;
+
+
+    }
+
 
     public void addCrime(Crime crime) {
         ContentValues values = new ContentValues();
