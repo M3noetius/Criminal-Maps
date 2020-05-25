@@ -15,7 +15,7 @@ import java.util.HashMap;
 public class API extends Network implements Serializable {
     private String error;
 
-    private ApiCredentials apiCredentials= null;
+    private ApiCredentials apiCredentials = null;
 
     public API(){}
 
@@ -143,6 +143,13 @@ public class API extends Network implements Serializable {
 
     }
 
+    public ApiCredentials getApiCredentials() {
+        return apiCredentials;
+    }
+
+    public void setApiCredentials(ApiCredentials apiCredentials) {
+        this.apiCredentials = apiCredentials;
+    }
 
     public String getError() {
         return error;

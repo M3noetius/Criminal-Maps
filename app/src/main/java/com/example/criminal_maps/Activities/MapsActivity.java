@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.criminal_maps.Classes.Crime;
 import com.example.criminal_maps.Classes.DBHandler;
@@ -17,6 +18,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONException;
@@ -34,6 +36,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
 
+    private Marker current_marker = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,16 +47,43 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
         api = (API) getIntent().getSerializableExtra("API");
+
+        Button btn_add_crime = (Button) findViewById(R.id.fragment_maps_add_crime);
+        btn_add_crime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (current_marker == null){
+                    Toast.makeText( MapsActivity.this, "Add a marker first", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                Intent intent = new Intent(MapsActivity.this, CrimeActivity.class);
+                intent.putExtra("LATITUDE", current_marker.getPosition().latitude);
+                intent.putExtra("LONGITUDE", current_marker.getPosition().longitude);
+                intent.putExtra("API", api);
+
+                // We don't actually expect a result. We do however want to refresh the map when a new crime is added. This lets us do it at onActivityResult()
+                startActivityForResult(intent, ADD_CRIME);
+            }
+        });
+
+        Button btn_logout = (Button) findViewById(R.id.fragment_maps_button_logout);
+        btn_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG, "mapsActivity");
+               logout();
+            }
+        });
     }
 
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(final GoogleMap googleMap) {
         mMap = googleMap;
 
         // Add a marker in Thessaloniki, move the camera and zoom.
         LatLng thessaloniki = new LatLng(40.631111, 22.953334);
-//        mMap.addMarker(new MarkerOptions().position(thessaloniki).title("Thessaloniki"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(thessaloniki, 12f));
 
         refresh();
@@ -65,10 +95,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 intent.putExtra("LATITUDE", point.latitude);
                 intent.putExtra("LONGITUDE", point.longitude);
                 intent.putExtra("API", api);
-//                mMap.addMarker(new MarkerOptions().position(point));
+                if (current_marker != null) {
+                    current_marker.remove();
+                }
+                 current_marker = mMap.addMarker(new MarkerOptions().position(point));
 
-                // We don't actually expect a result. We do however want to refresh the map when a new crime is added. This lets us do it at onActivityResult()
-                startActivityForResult(intent, ADD_CRIME);
+
+//
             }
         });
     }
@@ -108,4 +141,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    private void logout(){
+        DBHandler dbHandler = new DBHandler(this, null, null, 1);
+        dbHandler.deleteCredentials();
+        Intent intent = new Intent(MapsActivity.this, LoginActivity.class);
+        startActivity(intent);
+        MapsActivity.this.finish();
+    }
 }

@@ -5,11 +5,14 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import com.example.criminal_maps.Classes.ApiCredentials;
 import com.example.criminal_maps.Classes.Category;
 import com.example.criminal_maps.Classes.Crime;
 import com.example.criminal_maps.Classes.NetworkComms.NetworkResponse;
+import com.example.criminal_maps.Classes.StringSerialize;
 import com.example.criminal_maps.NetworkComms.API;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 /**
@@ -100,6 +103,12 @@ public class ExampleUnitTest {
         }
 
         assertEquals(true, response);
+
+
+    }
+
+    @Test
+    public void check_object_encodebase64() throws IOException {
 
 
     }
