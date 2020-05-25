@@ -17,6 +17,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -56,7 +57,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Toast.makeText( MapsActivity.this, "Add a marker first", Toast.LENGTH_LONG).show();
                     return;
                 }
-
                 Intent intent = new Intent(MapsActivity.this, CrimeActivity.class);
                 intent.putExtra("LATITUDE", current_marker.getPosition().latitude);
                 intent.putExtra("LONGITUDE", current_marker.getPosition().longitude);
@@ -98,13 +98,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 if (current_marker != null) {
                     current_marker.remove();
                 }
-                 current_marker = mMap.addMarker(new MarkerOptions().position(point));
+                 current_marker = mMap.addMarker(new MarkerOptions().position(point).icon(BitmapDescriptorFactory
+                         .defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
 
 
 //
             }
         });
     }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
