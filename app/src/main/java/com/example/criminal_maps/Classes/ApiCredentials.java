@@ -15,6 +15,10 @@ public class ApiCredentials implements Serializable {
         return credentials;
     }
 
+    public void setCredentials(String credentials){
+        this.credentials = credentials;
+    }
+
     @NonNull
     @Override
     public String toString() {

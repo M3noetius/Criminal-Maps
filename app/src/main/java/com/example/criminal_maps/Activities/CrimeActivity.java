@@ -13,7 +13,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.criminal_maps.Classes.Crime;
-import com.example.criminal_maps.Classes.DBHandler;
 import com.example.criminal_maps.NetworkComms.API;
 import com.example.criminal_maps.R;
 
