@@ -4,17 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#547087"
     android:fillViewport="true">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="#9CA0B6">
 
         <EditText
             android:id="@+id/fragment_register_editText_username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="227dp"
+            android:layout_height="52dp"
+            android:background="@drawable/edit_text_border"
             android:ems="10"
-            android:hint="@string/username"
+            android:hint=" Username"
             android:inputType="text"
             app:layout_constraintBottom_toTopOf="@+id/fragment_register_editText_password"
             app:layout_constraintEnd_toEndOf="parent"
@@ -25,12 +29,13 @@
 
         <EditText
             android:id="@+id/fragment_register_editText_password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="227dp"
+            android:layout_height="52dp"
             android:layout_marginTop="32dp"
+            android:background="@drawable/edit_text_border"
             android:ems="10"
             android:fontFamily="sans-serif"
-            android:hint="@string/password"
+            android:hint=" Password"
             android:inputType="textPassword"
             app:layout_constraintBottom_toTopOf="@+id/fragment_register_editText_password_confirm"
             app:layout_constraintEnd_toEndOf="parent"
@@ -40,12 +45,13 @@
 
         <EditText
             android:id="@+id/fragment_register_editText_password_confirm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="227dp"
+            android:layout_height="52dp"
             android:layout_marginTop="32dp"
+            android:background="@drawable/edit_text_border"
             android:ems="10"
             android:fontFamily="sans-serif"
-            android:hint="@string/confirm_password"
+            android:hint=" Confirm_password"
             android:inputType="textPassword"
             app:layout_constraintBottom_toTopOf="@+id/fragment_register_button_submit"
             app:layout_constraintEnd_toEndOf="parent"
@@ -55,9 +61,10 @@
 
         <Button
             android:id="@+id/fragment_register_button_submit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="227dp"
+            android:layout_height="52dp"
             android:layout_marginTop="32dp"
+            android:background="@drawable/button_border"
             android:onClick="onClickRegister"
             android:text="@string/complete_registration"
             app:layout_constraintBottom_toBottomOf="parent"
