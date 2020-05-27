@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#9CA0B6">
 
     <fragment
         android:id="@+id/map"
@@ -20,7 +20,6 @@
 
     <Button
         android:id="@+id/refresh_button"
-        android:background="@drawable/button_border"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"
@@ -28,6 +27,7 @@
         android:layout_marginEnd="48dp"
         android:layout_marginRight="48dp"
         android:layout_marginBottom="16dp"
+        android:background="@drawable/button_border"
         android:onClick="onRefreshClick"
         android:text="@string/refresh"
         map:layout_constraintBottom_toBottomOf="parent"
@@ -37,24 +37,24 @@
 
     <Button
         android:id="@+id/fragment_maps_add_crime"
-        android:background="@drawable/button_border"
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_marginEnd="28dp"
         android:layout_marginRight="28dp"
         android:layout_marginBottom="16dp"
+        android:background="@drawable/button_border"
         android:text="Add Crime"
         map:layout_constraintBottom_toBottomOf="parent"
         map:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/fragment_maps_button_logout"
-        android:background="@drawable/button_border"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
         android:layout_marginLeft="28dp"
         android:layout_marginBottom="16dp"
+        android:background="@drawable/button_border"
         android:text="Logout"
         map:layout_constraintBottom_toBottomOf="parent"
         map:layout_constraintStart_toStartOf="parent" />
