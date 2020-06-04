@@ -3,14 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:fillViewport="false">
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/sample_id"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="#9CA0B6"
-        tools:context=".Activities.CrimeActivity">
+        tools:context=".Activities.CrimeActivity"
+        tools:layout_editor_absoluteY="1dp">
 
 
         <Button
@@ -19,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="44dp"
             android:layout_marginLeft="44dp"
-            android:layout_marginTop="92dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/button_border"
             android:onClick="showDatePickerDialog"
             android:text="@string/pick_date"
@@ -40,7 +42,6 @@
 
         <EditText
             android:id="@+id/nameEditText"
-            android:background="@drawable/edit_text_border"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_marginStart="32dp"
@@ -48,6 +49,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="32dp"
             android:layout_marginRight="32dp"
+            android:background="@drawable/edit_text_border"
             android:ems="10"
             android:hint="@string/crime_name"
             android:importantForAutofill="no"
@@ -60,7 +62,7 @@
 
         <Button
             android:id="@+id/submitButton"
-            android:layout_width="wrap_content"
+            android:layout_width="159dp"
             android:layout_height="0dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/button_border"
@@ -73,12 +75,13 @@
         <EditText
             android:id="@+id/reportEditText"
             android:layout_width="0dp"
-            android:layout_height="194dp"
+            android:layout_height="169dp"
             android:layout_marginStart="32dp"
             android:layout_marginLeft="32dp"
-            android:layout_marginTop="156dp"
+            android:layout_marginTop="14dp"
             android:layout_marginEnd="32dp"
             android:layout_marginRight="32dp"
+            android:layout_marginBottom="16dp"
             android:background="@drawable/edit_text_border"
             android:ems="10"
             android:gravity="start|top"
@@ -88,6 +91,7 @@
             android:paddingLeft="8dp"
             android:paddingTop="8dp"
             android:paddingRight="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/submitButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -115,7 +119,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginLeft="32dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="24dp"
             android:text="@string/crime_type"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/showDialogButton" />

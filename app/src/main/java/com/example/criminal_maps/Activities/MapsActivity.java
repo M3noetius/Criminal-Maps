@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.criminal_maps.Classes.Crime;
@@ -25,10 +26,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONException;
 
-import java.util.ArrayList;
-
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+    // TODO Fetch from server
+    private static final String[] crimeTypes = {"murder", "robbery", "rape", "physical violence", "uncategorized"};
+    private static final float[] crimeColors = {BitmapDescriptorFactory.HUE_RED , BitmapDescriptorFactory.HUE_MAGENTA ,
+            BitmapDescriptorFactory.HUE_ORANGE , BitmapDescriptorFactory.HUE_GREEN, BitmapDescriptorFactory.HUE_VIOLET};
 
     private API api;
 
@@ -69,6 +72,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Toast.makeText( MapsActivity.this, getResources().getString(R.string.no_internet_connection), Toast.LENGTH_LONG).show();
                     return;
                 }
+
                 Intent intent = new Intent(MapsActivity.this, CrimeActivity.class);
                 intent.putExtra("LATITUDE", current_marker.getPosition().latitude);
                 intent.putExtra("LONGITUDE", current_marker.getPosition().longitude);
@@ -95,7 +99,35 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Add a marker in Thessaloniki, move the camera and zoom.
         LatLng thessaloniki = new LatLng(40.631111, 22.953334);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(thessaloniki, 12f));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(thessaloniki, 11f));
+        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+
+            // Use default InfoWindow frame
+            @Override
+            public View getInfoWindow(Marker arg0) {
+                return null;
+            }
+
+            // Defines the contents of the InfoWindow
+            @Override
+            public View getInfoContents(Marker arg0) {
+
+                // Getting view from the layout file info_window_layout
+                View v = getLayoutInflater().inflate(R.layout.report_layout, null);
+
+                // Getting the position from the marker
+                String latLng = arg0.getSnippet();
+                TextView title = (TextView) v.findViewById(R.id.report_textview_title);
+                TextView snippet = (TextView) v.findViewById(R.id.report_textview_snippet);
+
+                title.setText(arg0.getTitle());
+                snippet.setText(arg0.getSnippet());
+
+                // Returning the view containing InfoWindow contents
+                return v;
+
+            }
+        });
 
         refresh();
 
@@ -117,7 +149,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
     }
-
 
 
     @Override
@@ -174,7 +205,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Log.i(TAG, crime.toString());
             if (isNetworkConnected) dbHandler.addCrime(crime);
             LatLng location = new LatLng(crime.getLatitude(), crime.getLongitude());
-            mMap.addMarker(new MarkerOptions().position(location).title(crime.getName()));
+            mMap.addMarker(new MarkerOptions().position(location)
+                                                .title(crime.getName())
+                                                .snippet("Category: "  + crimeTypes[crime.getType()-1] + "\n" +
+                                                        "Description: " + crime.getReport() + "\n" +
+                                                        "Date: " + crime.getDate() )
+                                                .icon(BitmapDescriptorFactory.defaultMarker(crimeColors[crime.getType()-1])));
         }
     }
 
