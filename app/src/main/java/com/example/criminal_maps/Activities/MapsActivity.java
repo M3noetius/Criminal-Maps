@@ -2,6 +2,7 @@ package com.example.criminal_maps.Activities;
 
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,11 +18,14 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONException;
+
+import java.util.ArrayList;
 
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -30,13 +34,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public static final int ADD_CRIME = 1;
 
-    private Crime[] crimes;
+    private Crime[] crimes = null;
 
     private static final String TAG = "MapsActivity";
 
     private GoogleMap mMap;
 
     private Marker current_marker = null;
+
+    private Context context = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +52,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        this.context = mapFragment.getActivity();
 
         api = (API) getIntent().getSerializableExtra("API");
 
@@ -53,10 +61,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onClick(View v) {
                 if (current_marker == null){
-                    Toast.makeText( MapsActivity.this, "Add a marker first", Toast.LENGTH_LONG).show();
+                    Toast.makeText( MapsActivity.this, getResources().getString(R.string.add_a_marker), Toast.LENGTH_LONG).show();
                     return;
                 }
 
+                if (!API.isNetworkConnected(MapsActivity.this)){
+                    Toast.makeText( MapsActivity.this, getResources().getString(R.string.no_internet_connection), Toast.LENGTH_LONG).show();
+                    return;
+                }
                 Intent intent = new Intent(MapsActivity.this, CrimeActivity.class);
                 intent.putExtra("LATITUDE", current_marker.getPosition().latitude);
                 intent.putExtra("LONGITUDE", current_marker.getPosition().longitude);
@@ -71,12 +83,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(TAG, "mapsActivity");
+               Log.i(TAG, "mapsActivity");
                logout();
             }
         });
     }
-
 
     @Override
     public void onMapReady(final GoogleMap googleMap) {
@@ -98,7 +109,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 if (current_marker != null) {
                     current_marker.remove();
                 }
-                 current_marker = mMap.addMarker(new MarkerOptions().position(point));
+                 current_marker = mMap.addMarker(new MarkerOptions().position(point).icon(BitmapDescriptorFactory
+                         .defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
 
 
 //
@@ -106,40 +118,66 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
     }
 
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        current_marker = null;
         if (requestCode == ADD_CRIME) {
             refresh();
         }
     }
 
+
     public void onRefreshClick(View view) {
         refresh();
     }
 
+
     private void refresh() {
         mMap.clear();
-        try {
-            crimes = api.getCrimes();
-            if (crimes == null) {
+        DBHandler dbHandler = new DBHandler(this.context, null, null, 1);
+        boolean isNetworkConnected = API.isNetworkConnected(this.context);
+        if (isNetworkConnected){
+            try {
+                crimes = api.getCrimes();
+                if (crimes == null) {
+                    crimes = new Crime[]{};
+                    Log.e(TAG, api.getError());
+                }
+            }catch (JSONException e) {
                 crimes = new Crime[]{};
-                Log.e(TAG, api.getError());
+                e.printStackTrace();
             }
+        }else{
+            Toast.makeText( MapsActivity.this, getResources().getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
+            Log.i(TAG, "Not network Connected");
         }
-        catch (JSONException e) {
-            crimes = new Crime[]{};
-            e.printStackTrace();
-        }
-        DBHandler dbHandler = new DBHandler(this, null, null, 1);
 
-        // ArrayList<Crime> crimes = dbHandler.getAllCrimes();
+
+        // if no network was found the database will not get refreshed
+        // will get the already fetched data
+        if (crimes == null){
+            crimes = dbHandler.getAllCrimes();
+
+        }
+
+        // If nothing was found return
+        if (crimes  == null) {
+            Toast.makeText( MapsActivity.this, getResources().getString(R.string.no_markers_locally) , Toast.LENGTH_LONG).show();
+            Log.i(TAG, "No crimes were found");
+            return;
+        }
+
         for (Crime crime: crimes) {
-            dbHandler.addCrime(crime);
+            Log.i(TAG, crime.toString());
+            if (isNetworkConnected) dbHandler.addCrime(crime);
             LatLng location = new LatLng(crime.getLatitude(), crime.getLongitude());
             mMap.addMarker(new MarkerOptions().position(location).title(crime.getName()));
         }
     }
+
 
     private void logout(){
         DBHandler dbHandler = new DBHandler(this, null, null, 1);
@@ -147,5 +185,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Intent intent = new Intent(MapsActivity.this, LoginActivity.class);
         startActivity(intent);
         MapsActivity.this.finish();
+
+
     }
 }

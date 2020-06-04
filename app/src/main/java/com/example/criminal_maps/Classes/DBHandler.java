@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.nfc.Tag;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -53,7 +54,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CRIMES);
+//        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CRIMES);
         onCreate(db);
     }
 
@@ -110,13 +111,14 @@ public class DBHandler extends SQLiteOpenHelper {
         db.insert(TABLE_CRIMES, null, values);
     }
 
-    public ArrayList<Crime> getAllCrimes() {
+    public Crime[] getAllCrimes() {
         String query = "SELECT * FROM " + TABLE_CRIMES;
         SQLiteDatabase db = this.getReadableDatabase();
-        ArrayList<Crime> crimes = new ArrayList<>();
+
 
         Cursor cursor = db.rawQuery(query, null);
-
+        Crime[] crimes = new Crime[cursor.getCount()];
+        int i = 0;
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             int id = cursor.getInt(cursor.getColumnIndex(COLUMN_ID));
             double longitude = cursor.getDouble(cursor.getColumnIndex(COLUMN_LONGITUDE));
@@ -126,8 +128,12 @@ public class DBHandler extends SQLiteOpenHelper {
             int type = cursor.getInt(cursor.getColumnIndex(COLUMN_TYPE));
             String report = cursor.getString(cursor.getColumnIndex(COLUMN_REPORT));
             Crime crime = new Crime(id, longitude, latitude, name, date, type, report);
-            crimes.add(crime);
+            Log.i("Database", crime.toString());
+            Log.i("Database2", "whartt");
+            crimes[i]= crime;
+            i++;
         }
+
         cursor.close();
         db.close();
 

@@ -65,19 +65,23 @@ public class RegisterFragment extends Fragment {
                 if (!valid) {
                     return;
                 }
-                try {
-                    API api = new API();
-                    boolean response = api.register(username, password);
-                    if (response) {
-                        ViewPager vp = (ViewPager) getActivity().findViewById(R.id.activity_login_viewpager);
-                        vp.setCurrentItem(0, true);
+                if (API.isNetworkConnected(getActivity())){
+                    try {
+                        API api = new API();
+                        boolean response = api.register(username, password);
+                        if (response) {
+                            ViewPager vp = (ViewPager) getActivity().findViewById(R.id.activity_login_viewpager);
+                            vp.setCurrentItem(0, true);
+                        }
+                        else {
+                            Log.e(TAG, api.getError());
+                            Toast.makeText((LoginActivity) getActivity(), getResources().getString(R.string.registration_failed), Toast.LENGTH_LONG).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                    else {
-                        Log.e(TAG, api.getError());
-                        Toast.makeText((LoginActivity) getActivity(), getResources().getString(R.string.registration_failed), Toast.LENGTH_LONG).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                }else{
+                    Toast.makeText((LoginActivity) getActivity(), getResources().getString(R.string.no_internet_connection), Toast.LENGTH_LONG).show();
                 }
             }
         });
