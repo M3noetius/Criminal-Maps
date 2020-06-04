@@ -1,6 +1,13 @@
 package com.example.criminal_maps.Fragments.LoginActivity;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
+import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,6 +32,8 @@ import com.example.criminal_maps.R;
 
 import org.json.JSONException;
 import java.io.IOException;
+
+import static androidx.core.content.ContextCompat.getSystemService;
 
 public class LoginFragment extends Fragment {
     String TAG = "LoginFragment";
@@ -71,7 +80,7 @@ public class LoginFragment extends Fragment {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO keep registration hidden and enable only on button click
+                // TODO: keep registration hidden and enable only on button click
                 ViewPager vp = (ViewPager) getActivity().findViewById(R.id.activity_login_viewpager);
                 vp.setCurrentItem(1, true);
             }
@@ -114,20 +123,23 @@ public class LoginFragment extends Fragment {
         DBHandler dbHandler = new DBHandler(getContext(), null, null, 1);
         // TODO: check if creds exist
         API api = new API();
-
-        try {
-            boolean response = api.login(username, password);
-            if (response) {
-                String creds = StringSerialize.toString(api.getApiCredentials());
-                Log.i(TAG, "Added creds: " +  creds);
-                dbHandler.addCredentials(creds);
-                jump_to_activity(api);
-            } else {
-                Log.e(TAG, api.getError());
-                Toast.makeText((LoginActivity) getActivity(), getResources().getString(R.string.login_failed), Toast.LENGTH_LONG).show();
+        if (API.isNetworkConnected(getActivity())) {
+            try {
+                boolean response = api.login(username, password);
+                if (response) {
+                    String creds = StringSerialize.toString(api.getApiCredentials());
+                    Log.i(TAG, "Added creds: " + creds);
+                    dbHandler.addCredentials(creds);
+                    jump_to_activity(api);
+                } else {
+                    Log.e(TAG, api.getError());
+                    Toast.makeText((LoginActivity) getActivity(), getResources().getString(R.string.login_failed), Toast.LENGTH_LONG).show();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
+        }else{
+            Toast.makeText((LoginActivity) getActivity(), getResources().getString(R.string.no_internet_connection), Toast.LENGTH_LONG).show();
         }
 
     }
@@ -140,6 +152,7 @@ public class LoginFragment extends Fragment {
         startActivity(intent);
         ((LoginActivity) getActivity()).finish();
     }
+
 
 
 }

@@ -107,9 +107,5 @@ public class ExampleUnitTest {
 
     }
 
-    @Test
-    public void check_object_encodebase64() throws IOException {
 
-
-    }
 }

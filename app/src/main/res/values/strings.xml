@@ -29,4 +29,7 @@
     <string name="missing_username">Missing username</string>
     <string name="registration_failed">Something went wrong. Could not register</string>
     <string name="refresh">Refresh</string>
+    <string name="no_internet_connection">No internet connection found</string>
+    <string name="no_markers_locally">No markers were found locally</string>
+    <string name="add_a_marker">Add a marker first</string>
 </resources>
