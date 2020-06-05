@@ -1,3 +1,9 @@
+/*
+*
+* This activity is used when adding a crime
+*
+*/
+
 package com.example.criminal_maps.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;

@@ -1,3 +1,9 @@
+/*
+ *
+ * API credentials is stored in the database as a serialized object
+ *
+ */
+
 package com.example.criminal_maps.Classes;
 
 import java.io.ByteArrayInputStream;

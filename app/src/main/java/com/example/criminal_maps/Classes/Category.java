@@ -1,3 +1,9 @@
+/*
+ *
+ * Class fot defining a class
+ *
+ */
+
 package com.example.criminal_maps.Classes;
 
 import androidx.annotation.NonNull;
