@@ -1,3 +1,9 @@
+/*
+ *
+ * Using this class we can communicate with the server
+ *
+ */
+
 package com.example.criminal_maps.NetworkComms;
 
 import android.annotation.SuppressLint;

@@ -1,3 +1,9 @@
+/*
+ *
+ * This activity includes all the map functionality. This is the actual app
+ *
+ */
+
 package com.example.criminal_maps.Activities;
 
 import androidx.fragment.app.FragmentActivity;
@@ -128,7 +134,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-        refresh();
+        refresh_map_points();
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
@@ -155,17 +161,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onResume();
         current_marker = null;
         if (mMap != null) {
-            refresh();
+            refresh_map_points();
         }
     }
 
 
     public void onRefreshClick(View view) {
-        refresh();
+        refresh_map_points();
     }
 
 
-    private void refresh() {
+    private void refresh_map_points() {
         mMap.clear();
         DBHandler dbHandler = new DBHandler(this.context, null, null, 1);
         boolean isNetworkConnected = API.isNetworkConnected(this.context);

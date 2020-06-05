@@ -1,3 +1,9 @@
+/*
+ *
+ * A class for issuing post and get request
+ *
+ */
+
 package com.example.criminal_maps.NetworkComms;
 
 import android.util.Log;
@@ -13,10 +19,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import java.util.HashMap;
-import java.util.Iterator;
 
 import com.example.criminal_maps.Classes.NetworkComms.ConnectionData;
-import com.example.criminal_maps.Classes.NetworkComms.NetworkResponse;
 
 public class Network {
     public ConnectionData result;

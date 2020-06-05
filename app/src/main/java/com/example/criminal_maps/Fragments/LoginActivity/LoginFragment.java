@@ -1,13 +1,12 @@
+/*
+ *
+ * Here the logging happens
+ *
+ */
+
 package com.example.criminal_maps.Fragments.LoginActivity;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.Network;
-import android.net.NetworkCapabilities;
-import android.net.NetworkInfo;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;

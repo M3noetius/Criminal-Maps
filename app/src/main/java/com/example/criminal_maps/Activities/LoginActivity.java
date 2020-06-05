@@ -1,3 +1,9 @@
+/*
+ *
+ * This activity is used as a base to the actual fragments
+ *
+ */
+
 package com.example.criminal_maps.Activities;
 
 import androidx.annotation.Nullable;

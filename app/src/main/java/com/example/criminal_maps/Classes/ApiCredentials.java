@@ -1,3 +1,9 @@
+/*
+ *
+ * Api creds have their own class in case that something is going to change in the future
+ *
+ */
+
 package com.example.criminal_maps.Classes;
 
 import androidx.annotation.NonNull;

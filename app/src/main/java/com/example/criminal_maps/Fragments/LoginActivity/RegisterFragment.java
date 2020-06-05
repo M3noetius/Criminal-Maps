@@ -1,6 +1,11 @@
+/*
+ *
+ * Here registration happens
+ *
+ */
+
 package com.example.criminal_maps.Fragments.LoginActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,7 +21,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.criminal_maps.Activities.LoginActivity;
-import com.example.criminal_maps.Activities.MapsActivity;
 import com.example.criminal_maps.NetworkComms.API;
 import com.example.criminal_maps.R;
 
