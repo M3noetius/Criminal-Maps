@@ -78,8 +78,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 intent.putExtra("LONGITUDE", current_marker.getPosition().longitude);
                 intent.putExtra("API", api);
 
-                // We don't actually expect a result. We do however want to refresh the map when a new crime is added. This lets us do it at onActivityResult()
-                startActivityForResult(intent, ADD_CRIME);
+                startActivity(intent);
             }
         });
 
@@ -152,10 +151,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    public void onResume() {
+        super.onResume();
         current_marker = null;
-        if (requestCode == ADD_CRIME) {
+        if (mMap != null) {
             refresh();
         }
     }
